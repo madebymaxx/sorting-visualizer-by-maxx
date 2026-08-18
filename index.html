@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sorting Visualizer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script>
+  (function () {
+    var saved = localStorage.getItem('sortviz-theme');
+    var theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+</script>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="page-header">
+    <div class="page-header-row">
+      <div>
+        <h1>Sorting Visualizer</h1>
+        <p>Bubble &middot; Selection &middot; Insertion &middot; Merge &middot; Quick &middot; Heap</p>
+      </div>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+        <svg id="themeIconSun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
+        <svg id="themeIconMoon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        <span id="themeLabel">Dark</span>
+      </button>
+    </div>
+  </header>
+
+  <section class="toolbar">
+    <div class="control">
+      <label for="algoSelect">Algorithm</label>
+      <select id="algoSelect">
+        <option value="bubble">Bubble Sort</option>
+        <option value="selection">Selection Sort</option>
+        <option value="insertion">Insertion Sort</option>
+        <option value="merge">Merge Sort</option>
+        <option value="quick">Quick Sort</option>
+        <option value="heap">Heap Sort</option>
+      </select>
+    </div>
+
+    <div class="control">
+      <label>Dataset</label>
+      <div class="pill-group">
+        <button class="pill" data-shape="random">Random</button>
+        <button class="pill" data-shape="reversed">Reversed</button>
+        <button class="pill" data-shape="nearly">Nearly sorted</button>
+        <button class="pill" data-shape="fewunique">Few unique</button>
+      </div>
+    </div>
+
+    <div class="control">
+      <label>Size <span id="sizeValue">12</span></label>
+      <input type="range" id="sizeRange" min="6" max="30" value="12">
+    </div>
+
+    <div class="control">
+      <label>Speed <span id="speedValue">5</span></label>
+      <input type="range" id="speedRange" min="1" max="10" value="5">
+    </div>
+
+    <div class="control grow">
+      <label for="customInput">Custom values</label>
+      <div class="input-row">
+        <input type="text" id="customInput" placeholder="5, 3, 8, 1, 9">
+        <button class="btn-ghost" id="setCustomBtn">Set</button>
+      </div>
+    </div>
+
+    <div class="control actions">
+      <label>&nbsp;</label>
+      <div class="input-row">
+        <button class="btn-primary" id="playBtn">Run</button>
+        <button class="btn-ghost" id="stepBtn">Step</button>
+        <button class="btn-ghost" id="resetBtn">Reset</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="stage-card">
+    <div class="stage-top">
+      <div class="algo-info">
+        <strong id="algoTitle">Bubble Sort</strong>
+        <span id="algoComplexity"></span>
+      </div>
+      <div class="status-badge">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">idle</span>
+      </div>
+    </div>
+
+    <p class="algo-desc" id="algoDesc"></p>
+
+    <div class="blocks-track" id="blocksTrack">
+      <div class="blocks-layer" id="blocksLayer"></div>
+      <div class="index-layer" id="indexLayer"></div>
+    </div>
+
+    <div class="legend">
+      <span><i class="dot-sw default"></i>unsorted</span>
+      <span><i class="dot-sw compare"></i>comparing</span>
+      <span><i class="dot-sw swap"></i>swapping</span>
+      <span><i class="dot-sw pivot"></i>pivot</span>
+      <span><i class="dot-sw sorted"></i>sorted</span>
+    </div>
+  </section>
+
+  <section class="stats-strip">
+    <div class="stat"><span>Comparisons</span><b id="statComparisons">0</b></div>
+    <div class="stat"><span>Writes</span><b id="statWrites">0</b></div>
+    <div class="stat"><span>Elapsed</span><b id="statTime">0.0s</b></div>
+    <div class="stat"><span>Progress</span><b id="statProgress">0%</b></div>
+  </section>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+  <footer class="page-footer">Vanilla JavaScript (ES6) &middot; HTML5 &middot; CSS3 &mdash; no external libraries</footer>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
