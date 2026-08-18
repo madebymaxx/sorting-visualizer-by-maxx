@@ -178,3 +178,4 @@ If you found this project useful or fun to play with, consider giving it a ⭐ o
 ## 👤 Author
 
 Built by [**madebymaxx**](https://github.com/madebymaxx)
+## Thank You
